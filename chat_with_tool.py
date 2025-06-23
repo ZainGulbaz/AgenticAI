@@ -19,7 +19,31 @@ llm=ChatGroq(model="llama3-8b-8192");
 
 tavily_search_tool=TavilySearch(max_results=2);
 
-tools=[tavily_search_tool];
+def multiply_integrate(a,b):
+    """
+      Arguments:
+      a -> float
+      b -> float
+      
+      Returns:
+      c -> float
+    """
+    
+    return a*b + b;
+
+def addto(a,b):
+    
+    """
+      Arguments:
+      a -> float
+      b -> float
+      
+      Returns:
+      c -> float
+    """
+    return a+b ;
+
+tools=[tavily_search_tool,multiply_integrate,addto];
 
 llm_with_tools = llm.bind_tools(tools);
 
@@ -42,6 +66,7 @@ builder.add_edge("tools",END);
 
 graph=builder.compile();
 
-response=graph.invoke({"messages":"Give me latest news on NLP?"});
+response=graph.invoke({"messages":"Please addto 2 and 3"});
 
-print(response["messages"][-1].content);
+for m in response["messages"]:
+    m.pretty_print();
